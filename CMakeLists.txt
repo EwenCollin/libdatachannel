@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.7)
 project(libdatachannel
-	VERSION 0.18.1
+	VERSION 0.18.0
 	LANGUAGES CXX)
 set(PROJECT_DESCRIPTION "C/C++ WebRTC network library featuring Data Channels, Media Transport, and WebSockets")
 
@@ -339,11 +339,12 @@ else()
             endif()
 		endif()
 	endif()
-	find_package(OpenSSL REQUIRED)
+	#find_package(OpenSSL REQUIRED)
+	find_package(openssl REQUIRED CONFIG)
 	target_compile_definitions(datachannel PRIVATE USE_GNUTLS=0)
 	target_compile_definitions(datachannel-static PRIVATE USE_GNUTLS=0)
-	target_link_libraries(datachannel PRIVATE OpenSSL::SSL)
-	target_link_libraries(datachannel-static PRIVATE OpenSSL::SSL)
+	target_link_libraries(datachannel PRIVATE openssl::crypto openssl::ssl)
+	target_link_libraries(datachannel-static PRIVATE openssl::crypto openssl::ssl)
 endif()
 
 if (USE_NICE)
